@@ -36,11 +36,12 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<BlogPost>>> GetAllBlogPost()
+        public async Task<ActionResult<List<BlogPost>>> GetBlogPost([FromQuery] int? categoryId)
         {
             try
             {
-                var result = await _blogService.GetAllBlogs();
+                // if category is null then we get all
+                var result = await _blogService.GetAllBlogs(categoryId);
                 if (result == null)
                 {
                     return NotFound();
@@ -52,19 +53,6 @@ namespace WebApplication1.Controllers
                 return StatusCode(500, "An unexpected error occurred.");
             }
         }
-
-        //[HttpGet]
-        //public async Task<ActionResult<List<BlogPost>>> GetBlogByCategoryId([FromQuery] int categoryId)
-        //{
-        //    try
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, "An unexpected error occurred.");
-        //    }
-        //}
 
         [HttpPost]
         public async Task<ActionResult<BlogPost>> CreatePost([FromBody] BlogPostDto post)

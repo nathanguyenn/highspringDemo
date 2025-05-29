@@ -76,13 +76,24 @@ namespace WebApplication1.Core.Services
             return post;
         }
         
-        public async Task<List<BlogPost>?> GetAllBlogs()
+        public async Task<List<BlogPost>?> GetAllBlogs(int? categoryId)
         {
             using var conn = _context.CreateConnection();
-
-            var sql = "SELECT * FROM BlogPosts";
-            var post = await conn.QueryAsync<BlogPost>(sql);
-            return post.ToList();
+            var sql = "";
+            IEnumerable<BlogPost> posts;
+            if (categoryId == null)
+            {
+                sql = "SELECT * FROM BlogPosts";
+                posts = await conn.QueryAsync<BlogPost>(sql);
+            }
+            else
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("CategoryId", categoryId);
+                sql = "SELECT * FROM BlogPosts where CategoryId = @CategoryId";
+                posts = await conn.QueryAsync<BlogPost>(sql, parameters);
+            }
+            return posts.ToList();
         }
 
         public async Task DeleteAllBlog()
@@ -91,5 +102,7 @@ namespace WebApplication1.Core.Services
             using var conn = _context.CreateConnection();
             var affectedRows = await conn.ExecuteAsync(sql);
         }
+
+
     }
 }
