@@ -17,7 +17,8 @@ namespace WebApplication1
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddTransient<IProcessorService, ProcessorService>();
+            builder.Services.AddTransient<IBlogService, BlogService>();
+            builder.Services.AddTransient<ICategoryService, CategoryService>();
             builder.Services.AddSingleton<DataContext>();
             var app = builder.Build();
 
