@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Builder;
 using WebApplication1.Core.Contracts;
 using WebApplication1.Core.Services;
+using WebApplication1.Infra;
 
 namespace WebApplication1
 {
@@ -17,6 +18,7 @@ namespace WebApplication1
             builder.Services.AddControllersWithViews();
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<IProcessorService, ProcessorService>();
+            builder.Services.AddSingleton<DataContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

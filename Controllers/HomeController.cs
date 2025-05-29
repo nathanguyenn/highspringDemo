@@ -20,7 +20,7 @@ namespace WebApplication1.Controllers
             var result = await _processorService.ProcessMessage(id);
             if(!string.IsNullOrEmpty(result)) 
             {
-                return Ok("aaa");
+                return Ok(result);
             }
             return BadRequest("Cant find record");
             
